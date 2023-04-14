@@ -43,6 +43,35 @@ for _ in range(generations):
     population_history.append(population)
 
     # TODO: implement genetic algorithm
+    fitness_value = []
+
+    #parent selection
+    for individual in population:
+        fitness_value.append(fitness(items, knapsack_max_capacity, individual))
+
+    fitness_value = [float(f)/sum(fitness_value) for f in fitness_value]
+
+    new_population = []
+    for _ in range(int(len(population)/2)):
+        parents = random.choices(population, weights=fitness_value,  k=2)
+        #crossover
+        crossover = random.randint(1, len(items)-1)
+        child1 = parents[0][0:crossover] + parents[1][crossover:]
+        child2 = parents[1][0:crossover] + parents[0][crossover:]
+
+        #mutations
+        if( random.randint(1, 10) == 1):
+            mutation = random.randint(0, len(items)-1)
+            child1[mutation] = not child1[mutation]
+
+        if (random.randint(1, 10) == 1):
+            mutation = random.randint(0, len(items) - 1)
+            child2[mutation] = not child2[mutation]
+
+        new_population.append(child1)
+        new_population.append(child2)
+
+    population = new_population
 
     best_individual, best_individual_fitness = population_best(items, knapsack_max_capacity, population)
     if best_individual_fitness > best_fitness:
