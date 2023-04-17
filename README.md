@@ -1,1 +1,1 @@
-# Simple implementation of AI with genetic algorith
+# Simple implementation of AI with genetic algorithm
